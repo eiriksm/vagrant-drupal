@@ -11,7 +11,7 @@ fi
 
 if [ ! -d "/opt/provisioned" ]; then
   mkdir /opt/provisioned
-  apt-get -qq update
+  apt-get update
 
   # Install all kinds of useful stuff
   echo 'mysql-server-5.1 mysql-server/root_password password vagrant' | debconf-set-selections
