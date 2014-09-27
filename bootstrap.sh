@@ -18,7 +18,7 @@ if [ ! -d "/opt/provisioned" ]; then
   echo 'mysql-server-5.1 mysql-server/root_password_again password vagrant' | debconf-set-selections
   apt-get -qq -y install build-essential git curl vim apache2 php5 libapache2-mod-php5 mysql-server php-pear php5-gd php5-mysql php5-curl
   a2enmod rewrite
-  cp /vagrant/apache/drupal /etc/apache2/sites-available/
+  cp /vagrant/apache/drupal.conf /etc/apache2/sites-available/
   cp /vagrant/apache/php.ini /etc/php5/apache2/php.ini
   a2ensite drupal
   a2dissite default
@@ -29,5 +29,9 @@ if [ ! -d "/opt/provisioned" ]; then
   # Have to run status once, to get drush to download something.
   drush st
   # Install Drupal
+  if [ ! -d "/drupal" ]; then
+    drush dl
+    mv drupal* /drupal
+  fi
   drush --root=/drupal si --db-su=root --db-su-pw=vagrant --db-url=mysql://drupal:drupal@localhost/drupal -y
 fi
